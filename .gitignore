@@ -1,0 +1,25 @@
+# Node / React Native
+node_modules/
+.expo/
+.expo-shared/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / Android / iOS
+android/
+ios/
+*.apk
+*.ipa
+
+# IDE / éditeurs
+.vscode/
+.idea/
+
+# Spring Boot / Java
+target/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
