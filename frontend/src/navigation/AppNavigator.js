@@ -1,13 +1,3 @@
-/**
- * Configuration de la navigation React Navigation (Stack Navigator).
- *
- * Deux groupes de routes :
- * 1. Routes non authentifiées : Login, Register
- * 2. Routes authentifiées : Home, TransactionList, AddTransaction
- *
- * La navigation change automatiquement selon l'état d'authentification.
- */
-
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,16 +5,15 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { useAuth } from '../context/AuthContext';
 
-// Écrans
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HomeScreen from '../screens/HomeScreen';
 import TransactionListScreen from '../screens/TransactionListScreen';
 import AddTransactionScreen from '../screens/AddTransactionScreen';
+import EditTransactionScreen from '../screens/EditTransactionScreen';
 
 const Stack = createStackNavigator();
 
-// Options d'en-tête communes
 const headerOptions = {
   headerStyle: { backgroundColor: '#4F46E5' },
   headerTintColor: '#fff',
@@ -34,7 +23,6 @@ const headerOptions = {
 export default function AppNavigator() {
   const { user, loading } = useAuth();
 
-  // Afficher un loader pendant la vérification du token stocké
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -47,7 +35,6 @@ export default function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator>
         {!user ? (
-          // ===== Routes publiques (non connecté) =====
           <>
             <Stack.Screen
               name="Login"
@@ -61,7 +48,6 @@ export default function AppNavigator() {
             />
           </>
         ) : (
-          // ===== Routes privées (connecté) =====
           <>
             <Stack.Screen
               name="Home"
@@ -77,6 +63,11 @@ export default function AppNavigator() {
               name="AddTransaction"
               component={AddTransactionScreen}
               options={{ ...headerOptions, title: 'Nouvelle Transaction' }}
+            />
+            <Stack.Screen
+              name="EditTransaction"
+              component={EditTransactionScreen}
+              options={{ ...headerOptions, title: 'Modifier la Transaction' }}
             />
           </>
         )}

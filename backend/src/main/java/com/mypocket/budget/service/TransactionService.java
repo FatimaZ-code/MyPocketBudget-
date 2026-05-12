@@ -30,8 +30,9 @@ public class TransactionService {
      * Récupère l'utilisateur connecté depuis le contexte de sécurité Spring.
      * Le JWT a déjà été validé par le filtre → l'email est dans le SecurityContext.
      */
+    // Étape 1 : récupérer l'utilisateur connecté depuis le JWT
     private User getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();// ← email extrait du token JWT
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
     }
@@ -47,13 +48,14 @@ public class TransactionService {
     /**
      * Récupère une transaction par son ID (vérifie qu'elle appartient à l'utilisateur).
      */
+    // Étape 2 : vérifier que la transaction lui appartient
     public Transaction getTransactionById(Long id) {
         User user = getCurrentUser();
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transaction non trouvée"));
-
+        // ← LA VÉRIFICATION CLÉE
         if (!transaction.getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Accès non autorisé à cette transaction");
+            throw new RuntimeException("Accès non autorisé à cette transaction");// ← bloque l'accès
         }
         return transaction;
     }

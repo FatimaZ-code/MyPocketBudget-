@@ -1,20 +1,12 @@
-/**
- * Écran de connexion.
- *
- * Flux :
- * 1. Utilisateur saisit email + mot de passe
- * 2. Appel POST /api/auth/login via authService.login()
- * 3. Token JWT reçu → stocké dans AsyncStorage via AuthContext
- * 4. Navigation automatique vers HomeScreen (via le changement d'état user)
- */
-
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity,
   StyleSheet, Alert, KeyboardAvoidingView,
-  Platform, ActivityIndicator, ScrollView
+  Platform, ActivityIndicator, ScrollView,Image, Dimensions
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+
+const { width, height } = Dimensions.get('window');
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -50,7 +42,10 @@ export default function LoginScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.inner}>
         {/* Logo / Titre */}
         <View style={styles.header}>
-          <Text style={styles.emoji}>💰</Text>
+          <Image
+            source={require('../assets/logo.png')} // chemin vers ton image
+            style={styles.logo}
+         />
           <Text style={styles.title}>MyPocket Budget</Text>
           <Text style={styles.subtitle}>Gérez vos finances simplement</Text>
         </View>
@@ -108,33 +103,20 @@ export default function LoginScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
-  inner: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 24,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  emoji: {
-    fontSize: 64,
+  container: { flex: 1, backgroundColor: '#F9FAFB' },
+  inner: { flexGrow: 1, justifyContent: 'center', padding: 24 },
+  header: { alignItems: 'center', marginBottom: 36 },
+
+  // Logo violet dégradé
+  logo: {
+    width: width * 0.30,   // responsive : ~28% de la largeur de l’écran
+    height: width * 0.30,
     marginBottom: 12,
+    resizeMode: 'contain',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1F2937',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#6B7280',
-  },
+
+  title: { fontSize: 26, fontWeight: 'bold', color: '#1F2937', marginBottom: 8 },
+  subtitle: { fontSize: 15, color: '#6B7280' },
   form: {
     backgroundColor: '#fff',
     borderRadius: 16,
@@ -146,12 +128,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginBottom: 24,
   },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#374151',
-    marginBottom: 8,
-  },
+  label: { fontSize: 14, fontWeight: '600', color: '#374151', marginBottom: 8 },
   input: {
     backgroundColor: '#F3F4F6',
     borderRadius: 10,
@@ -169,23 +146,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 8,
   },
-  buttonDisabled: {
-    opacity: 0.7,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  linkContainer: {
-    alignItems: 'center',
-  },
-  linkText: {
-    fontSize: 15,
-    color: '#6B7280',
-  },
-  linkBold: {
-    color: '#4F46E5',
-    fontWeight: '600',
-  },
+  buttonDisabled: { opacity: 0.7 },
+  buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  linkContainer: { alignItems: 'center' },
+  linkText: { fontSize: 15, color: '#6B7280' },
+  linkBold: { color: '#4F46E5', fontWeight: '600' },
 });

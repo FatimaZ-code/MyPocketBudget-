@@ -1,9 +1,3 @@
-/**
- * Écran liste des transactions.
- * Affiche toutes les transactions de l'utilisateur avec possibilité de suppression.
- * Appel GET /api/transactions avec JWT dans les en-têtes.
- */
-
 import React, { useState, useCallback } from 'react';
 import {
   View, Text, FlatList, TouchableOpacity,
@@ -12,7 +6,6 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { transactionService } from '../services/api';
 
-// Catégories avec emojis pour l'affichage
 const CATEGORY_EMOJIS = {
   'Salaire': '💼',
   'Alimentation': '🍔',
@@ -23,6 +16,8 @@ const CATEGORY_EMOJIS = {
   'Vêtements': '👕',
   'Éducation': '📚',
   'Freelance': '💻',
+  'Vente': '🛒',
+  'Investissement': '📊',
   'Autre': '💰',
 };
 
@@ -104,9 +99,20 @@ export default function TransactionListScreen({ navigation }) {
           <View style={[styles.typeBadge, isRevenu ? styles.revenuBadge : styles.depenseBadge]}>
             <Text style={styles.typeBadgeText}>{isRevenu ? 'Revenu' : 'Dépense'}</Text>
           </View>
-          <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteBtn}>
-            <Text style={styles.deleteBtnText}>🗑️</Text>
-          </TouchableOpacity>
+          <View style={styles.actions}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('EditTransaction', { transaction: item })}
+              style={styles.editBtn}
+            >
+              <Text style={styles.actionBtnText}>✏️</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => handleDelete(item.id)}
+              style={styles.deleteBtn}
+            >
+              <Text style={styles.actionBtnText}>🗑️</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -123,7 +129,6 @@ export default function TransactionListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Bouton ajouter */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => navigation.navigate('AddTransaction')}
@@ -131,7 +136,6 @@ export default function TransactionListScreen({ navigation }) {
         <Text style={styles.addButtonText}>+ Nouvelle transaction</Text>
       </TouchableOpacity>
 
-      {/* Compteur */}
       <Text style={styles.count}>
         {transactions.length} transaction{transactions.length !== 1 ? 's' : ''}
       </Text>
@@ -176,7 +180,6 @@ const styles = StyleSheet.create({
   addButtonText: { color: '#fff', fontSize: 15, fontWeight: 'bold' },
 
   count: { marginHorizontal: 16, marginBottom: 8, color: '#6B7280', fontSize: 13 },
-
   listContent: { paddingHorizontal: 16, paddingBottom: 20 },
 
   transactionCard: {
@@ -213,8 +216,11 @@ const styles = StyleSheet.create({
   revenuBadge: { backgroundColor: '#ECFDF5' },
   depenseBadge: { backgroundColor: '#FEF2F2' },
   typeBadgeText: { fontSize: 10, fontWeight: '600', color: '#374151' },
-  deleteBtn: { marginTop: 6, padding: 4 },
-  deleteBtnText: { fontSize: 16 },
+
+  actions: { flexDirection: 'row', marginTop: 6, gap: 4 },
+  editBtn: { padding: 4, backgroundColor: '#EEF2FF', borderRadius: 6 },
+  deleteBtn: { padding: 4, backgroundColor: '#FEF2F2', borderRadius: 6 },
+  actionBtnText: { fontSize: 14 },
 
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 60 },
   emptyEmoji: { fontSize: 60, marginBottom: 16 },

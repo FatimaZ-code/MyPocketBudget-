@@ -34,14 +34,14 @@ MyPocketBudget/
 
 ## ⚙️ Prérequis
 
-| Outil | Version minimale |
-|-------|-----------------|
-| Java | 17 |
-| Maven | 3.8+ |
-| MySQL | 8.0 |
-| Node.js | 18+ |
-| npm | 9+ |
-| Expo CLI | dernière |
+| Outil    | Version minimale |
+| -------- | ---------------- |
+| Java     | 17               |
+| Maven    | 3.8+             |
+| MySQL    | 8.0              |
+| Node.js  | 18+              |
+| npm      | 9+               |
+| Expo CLI | dernière         |
 
 ---
 
@@ -70,6 +70,7 @@ spring.datasource.password=votre_mot_de_passe
 
 ```bash
 cd backend
+'nvm use 20.19.0'
 mvn spring-boot:run
 ```
 
@@ -78,6 +79,7 @@ mvn spring-boot:run
 ### 4. Tester avec Postman
 
 #### Inscription
+
 ```http
 POST http://localhost:8080/api/auth/register
 Content-Type: application/json
@@ -89,6 +91,7 @@ Content-Type: application/json
 ```
 
 #### Connexion
+
 ```http
 POST http://localhost:8080/api/auth/login
 Content-Type: application/json
@@ -98,9 +101,11 @@ Content-Type: application/json
   "password": "123456"
 }
 ```
+
 → Récupérer le `token` retourné
 
 #### Ajouter une transaction (avec JWT)
+
 ```http
 POST http://localhost:8080/api/transactions
 Authorization: Bearer <votre_token_jwt>
@@ -116,6 +121,7 @@ Content-Type: application/json
 ```
 
 #### Consulter le solde
+
 ```http
 GET http://localhost:8080/api/transactions/balance
 Authorization: Bearer <votre_token_jwt>
@@ -138,13 +144,13 @@ Fichier : `frontend/src/services/api.js`
 
 ```javascript
 // Pour émulateur Android :
-const BASE_URL = 'http://10.0.2.2:8080/api';
+//const BASE_URL = "http://192.168.11.123:8080/api";
 
 // Pour iOS Simulator :
 // const BASE_URL = 'http://localhost:8080/api';
 
 // Pour appareil physique (remplacer par l'IP de votre machine) :
-// const BASE_URL = 'http://192.168.x.x:8080/api';
+const BASE_URL = "http://192.168.x.x:8080/api";
 ```
 
 ### 3. Démarrer l'application
@@ -155,6 +161,7 @@ npx expo start
 ```
 
 Ensuite, choisissez :
+
 - **`a`** → Ouvrir sur l'émulateur Android
 - **`i`** → Ouvrir sur le simulateur iOS
 - **Scanner le QR code** → Ouvrir sur l'application Expo Go (appareil physique)
@@ -197,16 +204,16 @@ Ensuite, choisissez :
 
 ## 📋 Endpoints API
 
-| Méthode | Endpoint | Auth | Description |
-|---------|----------|------|-------------|
-| POST | `/api/auth/register` | Non | Inscription |
-| POST | `/api/auth/login` | Non | Connexion → JWT |
-| GET | `/api/transactions` | JWT | Liste toutes les transactions |
-| GET | `/api/transactions/{id}` | JWT | Une transaction |
-| POST | `/api/transactions` | JWT | Créer une transaction |
-| PUT | `/api/transactions/{id}` | JWT | Modifier une transaction |
-| DELETE | `/api/transactions/{id}` | JWT | Supprimer une transaction |
-| GET | `/api/transactions/balance` | JWT | Solde (revenus - dépenses) |
+| Méthode | Endpoint                    | Auth | Description                   |
+| ------- | --------------------------- | ---- | ----------------------------- |
+| POST    | `/api/auth/register`        | Non  | Inscription                   |
+| POST    | `/api/auth/login`           | Non  | Connexion → JWT               |
+| GET     | `/api/transactions`         | JWT  | Liste toutes les transactions |
+| GET     | `/api/transactions/{id}`    | JWT  | Une transaction               |
+| POST    | `/api/transactions`         | JWT  | Créer une transaction         |
+| PUT     | `/api/transactions/{id}`    | JWT  | Modifier une transaction      |
+| DELETE  | `/api/transactions/{id}`    | JWT  | Supprimer une transaction     |
+| GET     | `/api/transactions/balance` | JWT  | Solde (revenus - dépenses)    |
 
 ---
 
@@ -238,6 +245,7 @@ CREATE TABLE transactions (
 ## 🔧 Technologies utilisées
 
 ### Backend
+
 - **Java 17** + **Spring Boot 3.2**
 - **Spring MVC** → Contrôleurs REST
 - **Spring Security** → Protection des endpoints
@@ -248,6 +256,7 @@ CREATE TABLE transactions (
 - **Lombok** → Réduction du code boilerplate
 
 ### Frontend
+
 - **React Native** + **Expo 50**
 - **React Navigation** (Stack Navigator)
 - **Axios** → Client HTTP

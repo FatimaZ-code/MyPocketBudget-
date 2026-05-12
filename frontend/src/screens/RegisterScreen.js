@@ -1,15 +1,12 @@
-/**
- * Écran d'inscription.
- * Permet à un nouvel utilisateur de créer un compte.
- */
-
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity,
   StyleSheet, Alert, KeyboardAvoidingView,
-  Platform, ActivityIndicator, ScrollView
+  Platform, ActivityIndicator, ScrollView, Image, Dimensions
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+
+const { width } = Dimensions.get('window');
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -53,7 +50,10 @@ export default function RegisterScreen({ navigation }) {
     >
       <ScrollView contentContainerStyle={styles.inner}>
         <View style={styles.header}>
-          <Text style={styles.emoji}>✨</Text>
+          <Image
+            source={require('../assets/logo.png')} // chemin vers ton image
+            style={styles.logo}
+          />
           <Text style={styles.title}>Créer un compte</Text>
           <Text style={styles.subtitle}>Commencez à gérer vos finances</Text>
         </View>
@@ -121,7 +121,15 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
   inner: { flexGrow: 1, justifyContent: 'center', padding: 24 },
   header: { alignItems: 'center', marginBottom: 36 },
-  emoji: { fontSize: 56, marginBottom: 12 },
+
+  // Logo violet dégradé
+  logo: {
+    width: width * 0.28,   // responsive : ~28% de la largeur de l’écran
+    height: width * 0.28,
+    marginBottom: 12,
+    resizeMode: 'contain',
+  },
+
   title: { fontSize: 26, fontWeight: 'bold', color: '#1F2937', marginBottom: 8 },
   subtitle: { fontSize: 15, color: '#6B7280' },
   form: {

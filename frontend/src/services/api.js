@@ -1,16 +1,3 @@
-/**
- * Service API centralisé pour toutes les requêtes HTTP vers le backend Spring Boot.
- *
- * Architecture :
- * - Axios comme client HTTP
- * - Intercepteur automatique : injecte le JWT dans chaque requête
- * - Gestion centralisée des erreurs
- *
- * URL de base : http://10.0.2.2:8080 pour émulateur Android
- *               http://localhost:8080 pour iOS Simulator
- *               Changer pour l'IP de votre machine si sur appareil physique
- */
-
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -19,8 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // Remplacez par l'IP de votre machine si test sur appareil physique
 // Ex: http://192.168.1.100:8080/api
 // ============================================================
-const BASE_URL = 'http://192.168.11.123:8080/api'; // Android Emulator
-// const BASE_URL = 'http://localhost:8080/api'; // iOS Simulator
+const BASE_URL = 'http://192.168.11.106:8080/api'; // Android Emulator
 
 const api = axios.create({
   baseURL: BASE_URL,
